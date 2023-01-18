@@ -1,24 +1,19 @@
-# jsonwebtoken
+# JSON Web Token (JWT) - But for Deno
 
-| **Build**                                                                                                                               | **Dependency**                                                                                                         |
-|-----------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------|
-| [![Build Status](https://secure.travis-ci.org/auth0/node-jsonwebtoken.svg?branch=master)](http://travis-ci.org/auth0/node-jsonwebtoken) | [![Dependency Status](https://david-dm.org/auth0/node-jsonwebtoken.svg)](https://david-dm.org/auth0/node-jsonwebtoken) |
-
+> A fork of [jsonwebtoken](https://github.com/auth0/node-jsonwebtoken) ported for Deno.
 
 An implementation of [JSON Web Tokens](https://tools.ietf.org/html/rfc7519).
 
-This was developed against `draft-ietf-oauth-json-web-token-08`. It makes use of [node-jws](https://github.com/brianloveswords/node-jws)
+This was developed against `draft-ietf-oauth-json-web-token-08`.
 
-# Install
+# Why
 
-```bash
-$ npm install jsonwebtoken
-```
+The [current implementation](https://github.com/panva/jose) is AMAZING, however it contains all the specs for all the different types of tokens. This is great for a library that is trying to be a one-stop-shop for all things JW(X), but for a library that is trying to be a JWT library, it's a bit overkill.
 
-# Migration notes
+And so, this library was born. It's a fork of the original `jsonwebtoken` library, but with the following changes:
 
-* [From v8 to v9](https://github.com/auth0/node-jsonwebtoken/wiki/Migration-Notes:-v8-to-v9)
-* [From v7 to v8](https://github.com/auth0/node-jsonwebtoken/wiki/Migration-Notes:-v7-to-v8)
+- Greatly reduced the number of external dependencies
+- Full TypeScript support
 
 # Usage
 
@@ -28,7 +23,7 @@ $ npm install jsonwebtoken
 
 (Synchronous) Returns the JsonWebToken as string
 
-`payload` could be an object literal, buffer or string representing valid JSON. 
+`payload` could be an object literal, buffer or string representing valid JSON.
 > **Please _note_ that** `exp` or any other claim is only set if the payload is an object literal. Buffer or string payloads are not checked for JSON validity.
 
 > If `payload` is not a buffer or a string, it will be coerced into a string using `JSON.stringify`.
@@ -40,9 +35,9 @@ When signing with RSA algorithms the minimum modulus length is 2048 except when 
 `options`:
 
 * `algorithm` (default: `HS256`)
-* `expiresIn`: expressed in seconds or a string describing a time span [vercel/ms](https://github.com/vercel/ms). 
+* `expiresIn`: expressed in seconds or a string describing a time span [vercel/ms](https://github.com/vercel/ms).
   > Eg: `60`, `"2 days"`, `"10h"`, `"7d"`. A numeric value is interpreted as a seconds count. If you use a string be sure you provide the time units (days, hours, etc), otherwise milliseconds unit is used by default (`"120"` is equal to `"120ms"`).
-* `notBefore`: expressed in seconds or a string describing a time span [vercel/ms](https://github.com/vercel/ms). 
+* `notBefore`: expressed in seconds or a string describing a time span [vercel/ms](https://github.com/vercel/ms).
   > Eg: `60`, `"2 days"`, `"10h"`, `"7d"`. A numeric value is interpreted as a seconds count. If you use a string be sure you provide the time units (days, hours, etc), otherwise milliseconds unit is used by default (`"120"` is equal to `"120ms"`).
 * `audience`
 * `issuer`
@@ -141,13 +136,13 @@ As mentioned in [this comment](https://github.com/auth0/node-jsonwebtoken/issues
 
 `options`
 
-* `algorithms`: List of strings with the names of the allowed algorithms. For instance, `["HS256", "HS384"]`. 
+* `algorithms`: List of strings with the names of the allowed algorithms. For instance, `["HS256", "HS384"]`.
   > If not specified a defaults will be used based on the type of key provided
   > * secret - ['HS256', 'HS384', 'HS512']
   > * rsa - ['RS256', 'RS384', 'RS512']
   > * ec - ['ES256', 'ES384', 'ES512']
   > * default - ['RS256', 'RS384', 'RS512']
-* `audience`: if you want to check audience (`aud`), provide a value here. The audience can be checked against a string, a regular expression or a list of strings and/or regular expressions. 
+* `audience`: if you want to check audience (`aud`), provide a value here. The audience can be checked against a string, a regular expression or a list of strings and/or regular expressions.
   > Eg: `"urn:foo"`, `/urn:f[o]{2}/`, `[/urn:f[o]{2}/, "urn:bar"]`
 * `complete`: return an object with the decoded `{ payload, header, signature }` instead of only the usual content of the payload.
 * `issuer` (optional): string or array of strings of valid values for the `iss` field.
@@ -156,7 +151,7 @@ As mentioned in [this comment](https://github.com/auth0/node-jsonwebtoken/issues
 * `ignoreNotBefore`...
 * `subject`: if you want to check subject (`sub`), provide a value here
 * `clockTolerance`: number of seconds to tolerate when checking the `nbf` and `exp` claims, to deal with small clock differences among different servers
-* `maxAge`: the maximum allowed age for tokens to still be valid. It is expressed in seconds or a string describing a time span [vercel/ms](https://github.com/vercel/ms). 
+* `maxAge`: the maximum allowed age for tokens to still be valid. It is expressed in seconds or a string describing a time span [vercel/ms](https://github.com/vercel/ms).
   > Eg: `1000`, `"2 days"`, `"10h"`, `"7d"`. A numeric value is interpreted as a seconds count. If you use a string be sure you provide the time units (days, hours, etc), otherwise milliseconds unit is used by default (`"120"` is equal to `"120ms"`).
 * `clockTimestamp`: the time in seconds that should be used as the current time for all necessary comparisons.
 * `nonce`: if you want to check `nonce` claim, provide a string value here. It is used on Open ID for the ID Tokens. ([Open ID implementation notes](https://openid.net/specs/openid-connect-core-1_0.html#NonceNotes))

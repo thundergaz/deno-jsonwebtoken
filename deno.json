@@ -1,0 +1,16 @@
+{
+  "fmt": {
+    "options": {
+      "indentWidth": 2,
+      "useTabs": true,
+      "singleQuote": true,
+      "lineWidth": 80
+    }
+  },
+  "lock": true,
+  "lint": {
+    "rules": {
+      "exclude": ["no-explicit-any"]
+    }
+  }
+}

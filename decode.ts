@@ -1,19 +1,19 @@
-var jws = require('jws');
+var jws = require("jws");
 
-module.exports = function (jwt, options) {
+export default function (jwt: string, options: ) {
   options = options || {};
   var decoded = jws.decode(jwt, options);
-  if (!decoded) { return null; }
+  if (!decoded) return null;
   var payload = decoded.payload;
 
   //try parse the payload
-  if(typeof payload === 'string') {
+  if (typeof payload === "string") {
     try {
       var obj = JSON.parse(payload);
-      if(obj !== null && typeof obj === 'object') {
+      if (obj !== null && typeof obj === "object") {
         payload = obj;
       }
-    } catch (e) { }
+    } catch (e) {}
   }
 
   //return header if `complete` option is enabled.  header includes claims
@@ -23,8 +23,8 @@ module.exports = function (jwt, options) {
     return {
       header: decoded.header,
       payload: payload,
-      signature: decoded.signature
+      signature: decoded.signature,
     };
   }
   return payload;
-};
+}
